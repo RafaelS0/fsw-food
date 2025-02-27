@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Restaurant {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(45)
+  cnpj         String    @unique @db.VarChar(45)
+  description  String?   @db.VarChar(100)
+  avatar_image String?   @db.VarChar(100)
+  cover_url    String?   @db.VarChar(100)
+  products     Product[]
+}
+
+model ProductCategory {
+  id       Int       @id @default(autoincrement())
+  name     String?   @db.VarChar(45)
+  products Product[]
+}
+
+model Order {
+  id       Int          @id @default(autoincrement())
+  total    Float?
+  status   OrderStatus?
+  type     OrderType?
+  products Product[]
+}
+
+enum OrderStatus {
+  COMPLETE
+  PENDING
+  CANCELED
+}
+
+enum OrderType {
+  Delivery
+  DineIn
+}
+
+model Product {
+  id                  Int             @id @default(autoincrement())
+  name                String          @db.VarChar(45)
+  description         String?         @db.VarChar(45)
+  image_url           String?         @db.VarChar(45)
+  restaurant_id       Int
+  product_category_id Int
+  order_id            Int
+  restaurant          Restaurant      @relation(fields: [restaurant_id], references: [id])
+  product_category    ProductCategory @relation(fields: [product_category_id], references: [id])
+  order               Order           @relation(fields: [order_id], references: [id])
+  ingredients         Ingredients[]
+
+  @@unique([id, product_category_id])
+}
+
+model Ingredients {
+  id                          Int     @id @default(autoincrement())
+  name                        String? @db.VarChar(100)
+  quantity                    Int?
+  product_id                  Int
+  product_product_category_id Int
+  product                     Product @relation(fields: [product_id, product_product_category_id], references: [id, product_category_id])
+}
