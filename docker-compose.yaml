@@ -1,0 +1,19 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+        - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 3411
+      MYSQL_DATABASE: fsw-food
+      MYSQL_USER: prisma
+      MYSQL_PASSWORD: prisma
+      
+    # 
