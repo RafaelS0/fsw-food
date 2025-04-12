@@ -33,3 +33,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#mysql
+mysql/*
+mysql/#ib_16384_0.dblwr

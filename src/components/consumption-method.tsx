@@ -1,7 +1,18 @@
+"use client";
+
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import Image from "next/image";
 const consumptionMethod = () => {
+    
+    const handleComerAqui = () => {
+        console.log('Comer Aqui')
+    }
+
+    const handleParaLevar = () => {
+        console.log('Para Levar')
+    }
+    
     return ( 
   <div>
      {/* Cards */}
@@ -11,7 +22,7 @@ const consumptionMethod = () => {
             <Image src="/comer_aqui.png" alt="comer aqui" width={100} height={50} />
           </CardContent>
           <CardFooter>
-            <Button className='rounded-full' variant="secondary" >Comer Aqui</Button>
+            <Button onClick={handleComerAqui} className='rounded-full' variant="secondary" >Comer Aqui</Button>
           </CardFooter>
         </Card>
 
@@ -20,7 +31,7 @@ const consumptionMethod = () => {
             <Image src="/para_levar.png" alt="para levar" width={100} height={50} />
           </CardContent>
           <CardFooter>
-            <Button className='rounded-full' variant="secondary">Para levar</Button>
+            <Button onClick={handleParaLevar} className='rounded-full' variant="secondary">Para levar</Button>
           </CardFooter>
         </Card>
       </div>

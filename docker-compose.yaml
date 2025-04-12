@@ -1,19 +1,44 @@
 # Use root/example as user/password credentials
-version: '3.1'
+version: "3.1"
+networks:
+  application:
+    driver: bridge
 
 services:
-
   db:
     image: mysql
     restart: always
     ports:
       - "3306:3306"
     volumes:
-        - ./mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
+    networks:
+      - application
     environment:
       MYSQL_ROOT_PASSWORD: 3411
       MYSQL_DATABASE: fsw-food
       MYSQL_USER: prisma
       MYSQL_PASSWORD: prisma
-      
-    # 
+
+  app:
+    image: rafael/app
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    networks:
+      - application
+    environment:
+      MYSQL_ROOT_PASSWORD: 3411
+      MYSQL_DATABASE: fsw-food
+      MYSQL_USER: prisma
+      MYSQL_PASSWORD: prisma
+
+# docker exec -it <container_id> bash
+# docker exec -it <container_id> sh
+# docker-compose up -d
+# docker-compose down
+# docker-compose up -d --build
+# docker-compose logs -f
+# docker-compose exec app bash
